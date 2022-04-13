@@ -126,8 +126,8 @@ class static_model(object):
 			torch.set_grad_enabled(True)
 		else:
 			torch.set_grad_enabled(False)
-
-		out_src, out_tgt, pred_dom_src, pred_dom_tgt = self.net(src_data, tgt_data, dom_rev=self.dom_rev)
+		
+		out_src, out_tgt, pred_dom_src, pred_dom_tgt = self.net(src_x=src_data, tgt_x=tgt_data, dom_rev=self.dom_rev)
 
 		if hasattr(self, 'criterion') and self.criterion is not None and src_label is not None and self.net.training:
 			output = out_src
