@@ -28,7 +28,7 @@ python predict_video.py
 ```
 You may change the resulting zipfile name by changing the "--zip-file" configuration in the code, or simply by changing the configuration dynamically by
 ```
-python predict_video.py --zip-file <YOUR PREFERRED ZIPFILE NAME>
+python predict_t2.py --zip-file <YOUR PREFERRED ZIPFILE NAME>
 ```
 
 ## Other Information
@@ -37,3 +37,49 @@ python predict_video.py --zip-file <YOUR PREFERRED ZIPFILE NAME>
 - Our code base is adapted from [Multi-Fiber Network for Video Recognition](https://github.com/cypw/PyTorch-MFNet), we would like to thank the authors for providing the code base.
 - You may contact me through cvpr2022.ug2challenge@gmail.com
 
+## Conda setup
+
+```
+conda env create -f environment.yml
+```
+
+## Dataset Setup
+
+```
+UG2_Dataset=/home/srinitca/vlr/project/UG2_Dataset
+cd ${UG2_Dataset}
+gdown 1n7zaIPxiTHFwfvqh-mLnPoina5ZjWajf
+gdown 18X2KehCasxyhbpn_WiDWcYXvHSOxwiSS
+gdown 1h2b0JpmB2-DwOKlJjV497AwWU3JId-un
+gdown 1HTsNW7vSUSkSrYtCVNZUuMIftnNbdxU6
+
+for f in *.zip; do unzip "$f" -d "${f%.zip}"; done
+
+# Back to project folder
+cd -
+
+ln -sf ${UG2_Dataset}/dark-train/Train ./dataset/ARID/raw/train_data
+ln -sf ${UG2_Dataset}/labeled-train/Train ./dataset/Clear/raw/train_data
+ln -sf ${UG2_Dataset}/dry-run/Validation ./dataset/Clear/raw/test_data
+
+```
+
+## Pre-Trained Models Setup
+
+```
+PRETRAINED_MODELS=/home/srinitca/vlr/project/pretrained
+mkdir ${PRETRAINED_MODELS}
+cd ${PRETRAINED_MODELS}
+
+gdown 1uwW8iJyKkO4dnVZoV-wgN_1ko4f36nOk
+gdown 1_PhrhMD90i_xns0kGJBLdUC9lQfXnhXX
+gdown 1GKUfBqZ_L2nMiLT5z2l9Zo6m8eCfymOi
+gdown 1eSdDlc1E3KIff88nxPoy92wg8agEjJjT
+gdown 1btoVm82Jk61bIdLvz-lSVXcyzOUBcUdH
+gdown 1eUL6fJ313xnbjMQNDxac7-OVec_hC2Td
+
+# Back to project folder
+cd -
+
+ln -sf ${PRETRAINED_MODELS}/ ./network/pretrained
+```

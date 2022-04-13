@@ -31,7 +31,7 @@ parser.add_argument('--dataset', default='UG2-2022')
 parser.add_argument('--target-dataset', default='Clear', help="path to target dataset")
 parser.add_argument('--clip-length', default=16, help="define the length of each input sample.")
 parser.add_argument('--frame-interval', type=int, default=2, help="define the sampling interval between frames.")
-parser.add_argument('--task-name', type=str, default='../exps/models/ARID_UG2_2.2', help="name of current task, leave it empty for using folder name")
+parser.add_argument('--task-name', type=str, default='../exps/models/ARID_UG2_2.2-2022', help="name of current task, leave it empty for using folder name")
 parser.add_argument('--model-dir', type=str, default="./", help="set model directory.")
 parser.add_argument('--log-file', type=str, default="./predict-arid.log", help="set logging file.")
 # device
@@ -110,7 +110,7 @@ if __name__ == '__main__':
 					  force_color=True, video_transform=transforms.Compose([transforms.Resize((256,256)),transforms.RandomCrop((224,224)),transforms.ToTensor(),normalize,]),
 					  name='predict', return_item_subpath=True,)
 
-	eval_iter = torch.utils.data.DataLoader(val_loader, batch_size=args.batch_size, shuffle=True, num_workers=args.workers, pin_memory=True)
+	eval_iter = torch.utils.data.DataLoader(val_loader, batch_size=args.batch_size, shuffle=False, num_workers=args.workers, pin_memory=True)
 
 	# main loop
 	net.net.eval()
@@ -138,7 +138,9 @@ if __name__ == '__main__':
 			video_subpath_i = video_subpaths[i_item]
 			_, pred_class_i = torch.topk(output_i, 1)
 			class_id_i = pred_class_i.numpy()[0][0]
-			video_id_i = int(video_subpath_i.split('.')[0])
+
+			# print(f"{video_subpath_i=}")
+			video_id_i = 0 #int(video_subpath_i.split('.')[0])
 			pred_row = {field_names[0]: video_id_i, field_names[1]: video_subpath_i,
 						field_names[2]: class_id_i, field_names[3]: output_i}
 			pred_rows.append(pred_row)
